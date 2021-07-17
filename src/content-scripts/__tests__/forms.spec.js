@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer'
 import _ from 'lodash'
-import {launchPuppeteerWithExtension} from '../../__e2e-tests__/helpers'
+import { launchPuppeteerWithExtension } from '@/__tests__/helpers'
 import { waitForAndGetEvents, cleanEventLog, startServer } from './helpers'
 
 let server
@@ -9,11 +9,11 @@ let browser
 let page
 
 describe('forms', () => {
-  beforeAll(async (done) => {
-    const buildDir = process.env.NODE_ENV === 'production' ? '../../../dist' : '../../../build'
+  beforeAll(async done => {
+    const buildDir = '../../../dist'
     const fixture = './fixtures/forms.html'
     {
-      const {server: _s, port: _p} = await startServer(buildDir, fixture)
+      const { server: _s, port: _p } = await startServer(buildDir, fixture)
       server = _s
       port = _p
     }
@@ -50,7 +50,9 @@ describe('forms', () => {
     await page.keyboard.press('Tab')
 
     const eventLog = await waitForAndGetEvents(page, string.length + tab + change)
-    const event = _.find(eventLog, e => { return e.action === 'keydown' && e.keyCode === 9 })
+    const event = _.find(eventLog, e => {
+      return e.action === 'keydown' && e.keyCode === 9
+    })
     expect(event.value).toEqual(string)
   })
 
@@ -60,14 +62,16 @@ describe('forms', () => {
     await page.keyboard.press('Tab')
 
     const eventLog = await waitForAndGetEvents(page, string.length + tab + change)
-    const event = _.find(eventLog, e => { return e.action === 'keydown' && e.keyCode === 9 })
+    const event = _.find(eventLog, e => {
+      return e.action === 'keydown' && e.keyCode === 9
+    })
     expect(event.value).toEqual(string)
   })
 
   test('it should record radio input elements', async () => {
     await page.click('#radioChoice1')
     await page.click('#radioChoice3')
-    const eventLog = await waitForAndGetEvents(page, 2 + (2 * change))
+    const eventLog = await waitForAndGetEvents(page, 2 + 2 * change)
     expect(eventLog[0].value).toEqual('radioChoice1')
     expect(eventLog[2].value).toEqual('radioChoice3')
   })
@@ -82,7 +86,7 @@ describe('forms', () => {
   test('it should record checkbox input elements', async () => {
     await page.click('#checkbox1')
     await page.click('#checkbox2')
-    const eventLog = await waitForAndGetEvents(page, 2 + (2 * change))
+    const eventLog = await waitForAndGetEvents(page, 2 + 2 * change)
     expect(eventLog[0].value).toEqual('checkbox1')
     expect(eventLog[2].value).toEqual('checkbox2')
   })

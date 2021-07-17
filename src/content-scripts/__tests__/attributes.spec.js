@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer'
-import {launchPuppeteerWithExtension} from '../../__e2e-tests__/helpers'
+import { launchPuppeteerWithExtension } from '@/__tests__/helpers'
 import { waitForAndGetEvents, cleanEventLog, startServer } from './helpers'
 
 let server
@@ -8,11 +8,11 @@ let browser
 let page
 
 describe('attributes', () => {
-  beforeAll(async (done) => {
-    const buildDir = process.env.NODE_ENV === 'production' ? '../../../dist' : '../../../build'
+  beforeAll(async done => {
+    const buildDir = '../../../dist'
     const fixture = './fixtures/attributes.html'
     {
-      const {server: _s, port: _p} = await startServer(buildDir, fixture)
+      const { server: _s, port: _p } = await startServer(buildDir, fixture)
       server = _s
       port = _p
     }
@@ -46,7 +46,9 @@ describe('attributes', () => {
     await page.click('span')
 
     const event = (await waitForAndGetEvents(page, 1))[0]
-    expect(event.selector).toEqual('body > #content-root > [data-qa="article-wrapper"] > [data-qa="article-body"] > span')
+    expect(event.selector).toEqual(
+      'body > #content-root > [data-qa="article-wrapper"] > [data-qa="article-body"] > span'
+    )
   })
 
   test('it should use data attributes throughout selector even when id is set', async () => {
